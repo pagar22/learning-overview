@@ -34,9 +34,13 @@ There were several limitations with our NoSQL implementation. These mainly invol
 
 ## Archive and Future
 
+Backup is currently done manually to a Cloud Storage Bucket. Need to write a cloud function to do this once a month ideally in the future.
+
+The database seems to be very low latency. Once the app has started, we get realtime data almost instantly. However, we don't have too much data right now and after scraping, we need to ensure that we maintain our speed levels.
+
 Things to implement in the future:
 
-1. Extensive cloud functions that will help us migrate data. If we change an attribute in the schemas, we will need to write cloud functions to update the relevant attribute to avoid bad states and complains from our schema's constraints.
+1. Data migration with Firestore can be problematic. If we change an attribute in the schemas, we can write cloud functions to update the relevant attribute to avoid a bad data state. However, if we encounter such an error, we should add exception handling in the DAOs to deal with it.
 2. More cloud functions to run scheduled jobs to pick up data and push it into our db on a weekly basis after matches have been played every week.
 3. The DAOs have not been entirely decoupled from the dependencies yet. More functions and refactoring is needed to ensure the DAO primarily responsible for calling relevant dependency functions.
 4. Extensive validation. Our validation is very limited right now and only ensures basic relational integrity. We want to reach a point where the DAOs do the least amount of unexpected things but at the same time the data is airtight.
